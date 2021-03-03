@@ -6,19 +6,19 @@ namespace LabWork_Exceptions
 {
     public class Matrix
     {
-        private int[,] _matrix;
+        private double[,] _matrix;
         public (uint x, uint y) Size { get => ((uint)_matrix.GetLength(0), (uint)_matrix.GetLength(1)); }
         private Matrix() { }
-        public Matrix(uint size_X, uint size_y, int value)
+        public Matrix(uint size_X, uint size_y, double value)
         {
-            _matrix = new int[size_X, size_y];
+            _matrix = new double[size_X, size_y];
             for (uint x = 0; x < size_X; x++)
                 for (uint y = 0; y < size_y; y++)
                     _matrix[x, y] = value;
         }
         public Matrix(uint size_X, uint size_y)
             : this(size_X, size_y, 1) { }
-        public Matrix(uint size, int value)
+        public Matrix(uint size, double value)
             : this(size, size, value) { }
 
         public Matrix(uint size)
@@ -26,6 +26,11 @@ namespace LabWork_Exceptions
 
         public Matrix((uint x, uint y) size)
             : this(size.x, size.y) { }
+
+        public Matrix(double[,] matrix)
+        {
+            _matrix = matrix;
+        }
 
         public Matrix GetEmpty(uint size_X, uint size_Y)
         {
@@ -35,6 +40,7 @@ namespace LabWork_Exceptions
         {
             return GetEmpty(size, 0);
         }
+
 
         public static Matrix Sum(Matrix firstMatrix, Matrix secondMatrix)
         {
@@ -50,11 +56,34 @@ namespace LabWork_Exceptions
             return resultingMatrix;
         }
 
-        public static Matrix Multiply(Matrix firstMatrix, Matrix secondMatrix)
+        public static Matrix Multiply(Matrix A, Matrix B)
         {
-            if (firstMatrix.Size.x != secondMatrix.Size.y && firstMatrix.Size.y != secondMatrix.Size.x)
+            var rA = A.Size.x;
+            var cA = A.Size.y;
+            var rB = B.Size.x;
+            var cB = B.Size.y;
+            double temp = 0;
+            double[,] resultArray = new double[rA, cB];
+            if (cA != rB)
             {
-                throw new ArgumentException("Matrices can't be multiplied.");
+                throw new ArgumentException();
+            }
+            else
+            {
+                for (int i = 0; i < rA; i++)
+                {
+                    for (int j = 0; j < cB; j++)
+                    {
+                        temp = 0;
+                        for (int k = 0; k < cA; k++)
+                        {
+                            temp += A._matrix[i, k] * B._matrix[k, j];
+                        }
+                        resultArray[i, j] = temp;
+                    }
+                }
+
+                return new Matrix(resultArray);
             }
         }
 
@@ -71,6 +100,18 @@ namespace LabWork_Exceptions
                     result._matrix[x, y] = -a._matrix[x, y];
 
             return result;
+        }
+
+        public double GetValue(uint a, uint b)
+        {
+            if (a >= Size.x || b > Size.y)
+            {
+                throw new ArgumentException();
+            }
+            else
+            {
+                return _matrix[a, b];
+            }
         }
     }
 }
