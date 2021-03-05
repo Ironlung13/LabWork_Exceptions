@@ -4,8 +4,8 @@ namespace LabWork_Exceptions
 {
     class MatrixIncompatibleSizingException : Exception
     {
-        public (uint x, uint y) Size1 { get; }
-        public (uint x, uint y) Size2 { get; }
+        public (int x, int y) Size1 { get; }
+        public (int x, int y) Size2 { get; }
         public MatrixIncompatibleSizingException(Matrix a, Matrix b)
         {
             Size1 = a.Size;

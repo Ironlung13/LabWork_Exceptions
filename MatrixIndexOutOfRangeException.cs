@@ -4,7 +4,7 @@ namespace LabWork_Exceptions
 {
     public class MatrixIndexOutOfRangeException : Exception
     {
-        public (uint x, uint y) Size { get; }
+        public (int x, int y) Size { get; }
         public MatrixIndexOutOfRangeException(Matrix a)
         {
             Size = a.Size;
