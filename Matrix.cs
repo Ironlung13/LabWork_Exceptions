@@ -12,23 +12,30 @@ namespace LabWork_Exceptions
             set => SetValue(x, y, value);
         }
         private Matrix() { }
-        public Matrix(int size_X, int size_y, int value)
+        public Matrix(int size_x, int size_y, int value)
         {
-            _matrix = new int[size_X, size_y];
-            for (int x = 0; x < size_X; x++)
-                for (int y = 0; y < size_y; y++)
-                    _matrix[x, y] = value;
+            try
+            {
+                _matrix = new int[size_x, size_y];
+                for (int x = 0; x < size_x; x++)
+                    for (int y = 0; y < size_y; y++)
+                        _matrix[x, y] = value;
+            }
+            catch (OverflowException ex)
+            {
+                throw new MatrixFailedCreationException((size_x, size_y), $"Tried to create invalid size [{size_x},{size_y}] Matrix", ex);
+            }
         }
-        public Matrix(int size_X, int size_y) : this(size_X, size_y, 1) { }
+        public Matrix(int size_x, int size_y) : this(size_x, size_y, 1) { }
         public Matrix(int size) : this(size, size, 1) { }
         public Matrix((int x, int y) size) : this(size.x, size.y) { }
         public Matrix(int[,] matrix)
         {
             _matrix = matrix;
         }
-        public Matrix GetEmpty(int size_X, int size_Y)
+        public Matrix GetEmpty(int size_x, int size_y)
         {
-            return new Matrix(size_X, size_Y, 0);
+            return new Matrix(size_x, size_y, 0);
         }
         public Matrix GetEmpty(int size)
         {
@@ -39,7 +46,7 @@ namespace LabWork_Exceptions
             Random rand = new Random();
             for (int x = 0; x < Size.x; x++)
                 for (int y = 0; y < Size.y; y++)
-                    _matrix[x, y] = rand.Next(-999, 1000);
+                    _matrix[x, y] = rand.Next(-9, 10);
         }
         public static Matrix Sum(Matrix a, Matrix b)
         {
@@ -47,7 +54,7 @@ namespace LabWork_Exceptions
             {
                 if (a.Size != b.Size)
                 {
-                    throw new MatrixIncompatibleSizingException(a, b, $"Matrix sizes are incompatible!\nFirst Matrix size: {a.Size}\nSecond Matrix size: {b.Size}");
+                    throw new MatrixIncompatibleSizingException(a, b, $"Failed to sum matrices exception.\nFirst Matrix size: {a.Size}\nSecond Matrix size: {b.Size}");
                 }
 
                 Matrix resultingMatrix = new Matrix(a.Size);
@@ -66,15 +73,15 @@ namespace LabWork_Exceptions
         {
             try
             {
-                var rA = a.Size.x;
-                var cA = a.Size.y;
-                var rB = b.Size.x;
-                var cB = b.Size.y;
+                int rA = a.Size.x;
+                int cA = a.Size.y;
+                int rB = b.Size.x;
+                int cB = b.Size.y;
                 int temp;
                 int[,] resultArray = new int[rA, cB];
                 if (cA != rB)
                 {
-                    throw new MatrixIncompatibleSizingException(a, b, $"Matrix sizes are incompatible!\nFirst Matrix size: {a.Size}\nSecond Matrix size: {b.Size}");
+                    throw new MatrixIncompatibleSizingException(a, b, $"Failed to multiply matrices exception!\nFirst Matrix size: {a.Size}\nSecond Matrix size: {b.Size}");
                 }
                 else
                 {
@@ -134,6 +141,10 @@ namespace LabWork_Exceptions
                _matrix[x, y] = value;
             }
             catch (IndexOutOfRangeException ex)
+            {
+                throw new MatrixIndexOutOfRangeException(this, $"Tried to access wrong matrix index [{x},{y}]. Matrix size [{Size}]", ex);
+            }
+            catch (OverflowException ex)
             {
                 throw new MatrixIndexOutOfRangeException(this, $"Tried to access wrong matrix index [{x},{y}]. Matrix size [{Size}]", ex);
             }
