@@ -2,7 +2,7 @@
 
 namespace LabWork_Exceptions
 {
-    public class MatrixFailedCreationException : Exception
+    public class MatrixFailedCreationException : ApplicationException
     {
         public (int x, int y) Size { get; }
         public MatrixFailedCreationException((int x, int y) size)

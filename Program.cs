@@ -37,7 +37,7 @@ namespace LabWork_Exceptions
                 //Sum 2 matrices
                 try
                 {
-                    Matrix c = Matrix.Sum(a, b);
+                    Matrix c = a + b;
                     Console.WriteLine("Summed matrix:");
                     DisplayMatrix(c);
                 }
@@ -81,6 +81,7 @@ namespace LabWork_Exceptions
 
             Console.WriteLine("_______________________________________________________________________________");
             Console.WriteLine("SUCCESSFUL METHODS END");
+            Console.WriteLine();
 
             ///Unsuccessful methods (custom exceptions included)
             Console.WriteLine("BOTCHED METHODS START");

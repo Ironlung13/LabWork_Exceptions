@@ -2,7 +2,7 @@
 
 namespace LabWork_Exceptions
 {
-    class MatrixIncompatibleSizingException : Exception
+    class MatrixIncompatibleSizingException : ApplicationException
     {
         public (int x, int y) Size1 { get; }
         public (int x, int y) Size2 { get; }

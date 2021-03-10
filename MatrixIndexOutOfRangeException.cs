@@ -2,7 +2,7 @@
 
 namespace LabWork_Exceptions
 {
-    public class MatrixIndexOutOfRangeException : Exception
+    public class MatrixIndexOutOfRangeException : ApplicationException
     {
         public (int x, int y) Size { get; }
         public MatrixIndexOutOfRangeException(Matrix a)
