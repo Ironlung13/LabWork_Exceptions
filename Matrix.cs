@@ -11,7 +11,10 @@ namespace LabWork_Exceptions
             get => GetValue(x, y);
             set => SetValue(x, y, value);
         }
-        private Matrix() { }
+        public Matrix(int[,] matrix)
+        {
+            _matrix = matrix;
+        }
         public Matrix(int size_x, int size_y, int value)
         {
             try
@@ -29,10 +32,6 @@ namespace LabWork_Exceptions
         public Matrix(int size_x, int size_y) : this(size_x, size_y, 1) { }
         public Matrix(int size) : this(size, size, 1) { }
         public Matrix((int x, int y) size) : this(size.x, size.y) { }
-        public Matrix(int[,] matrix)
-        {
-            _matrix = matrix;
-        }
         public Matrix GetEmpty(int size_x, int size_y)
         {
             return new Matrix(size_x, size_y, 0);
